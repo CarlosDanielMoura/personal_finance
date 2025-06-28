@@ -1,0 +1,19 @@
+| Classe de exceção               | Código HTTP | Quando usar                                             |
+| ------------------------------- | ----------- | ------------------------------------------------------- |
+| `BadRequestException`           | `400`       | Dados inválidos ou malformados na requisição            |
+| `UnauthorizedException`         | `401`       | Não autenticado (ex: token inválido ou ausente)         |
+| `ForbiddenException`            | `403`       | Autenticado, mas sem permissão                          |
+| `NotFoundException`             | `404`       | Recurso não encontrado                                  |
+| `MethodNotAllowedException`     | `405`       | Método HTTP inválido para a rota                        |
+| `NotAcceptableException`        | `406`       | Tipo de mídia não aceita                                |
+| `RequestTimeoutException`       | `408`       | Tempo de requisição excedido                            |
+| `ConflictException`             | `409`       | Conflito com estado atual (ex: email já cadastrado)     |
+| `GoneException`                 | `410`       | Recurso não disponível permanentemente                  |
+| `PayloadTooLargeException`      | `413`       | Corpo da requisição muito grande                        |
+| `UnsupportedMediaTypeException` | `415`       | Tipo de mídia não suportado (ex: `Content-Type` errado) |
+| `UnprocessableEntityException`  | `422`       | Erro de validação (semântica da requisição inválida)    |
+| `InternalServerErrorException`  | `500`       | Erro interno inesperado                                 |
+| `NotImplementedException`       | `501`       | Funcionalidade ainda não implementada                   |
+| `BadGatewayException`           | `502`       | Erro ao se comunicar com outro serviço                  |
+| `ServiceUnavailableException`   | `503`       | Serviço indisponível                                    |
+| `GatewayTimeoutException`       | `504`       | Serviço demorou a responder                             |
