@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { PrismaClient } from '@prisma/client';
@@ -20,7 +20,7 @@ export class CategoryService {
 
     return {
       message: 'Categoria criada com sucesso',
-      statusCode: 201,
+      statusCode: HttpStatus.CREATED,
       data: catergory,
     };
   }
@@ -68,7 +68,7 @@ export class CategoryService {
 
     return {
       message: 'Categoria encontrada com sucesso',
-      statusCode: 200,
+      statusCode: HttpStatus.CREATED,
       data: category,
     };
   }
@@ -88,7 +88,7 @@ export class CategoryService {
 
     return {
       message: 'Categoria atualizada com sucesso',
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
       data: updatedCategory,
     };
   }
@@ -98,7 +98,7 @@ export class CategoryService {
     await this.prisma.category.delete({ where: { id } });
     return {
       message: 'Categoria removida com sucesso',
-      statusCode: 200,
+      statusCode: HttpStatus.OK,
     };
   }
 
