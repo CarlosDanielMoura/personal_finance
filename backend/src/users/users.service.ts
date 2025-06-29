@@ -48,6 +48,9 @@ export class UsersService {
         id: true,
         name: true,
         email: true,
+        categories: true,
+        transactions: true,
+        contexts: true,
       },
     });
 
@@ -109,14 +112,12 @@ export class UsersService {
     };
   }
 
-
   private async findByEmail(email: string): Promise<boolean> {
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
     return Boolean(user);
   }
-
 
   private async findById(id: string) {
     const user = await this.prisma.user.findUnique({

@@ -26,20 +26,75 @@ export class TransactionService {
     };
   }
 
-  findAll() {
-    return `This action returns all transaction`;
+  async findAll() {
+    const transactions = await this.prisma.transaction.findMany({
+      include: {
+        user: true,
+        category: true,
+      },
+    });
+    if (!transactions || transactions.length === 0) {
+      throw new ConflictException('Nenhuma transação encontrada');
+    }
+
+    return {
+      message: 'Uma transação encontrada',
+      statusCode: HttpStatus.OK,
+      data: transactions,
+    };
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} transaction`;
+  async findOne(id: string) {
+    await this.findTransactionById(id);
+
+    const transaction = await this.prisma.transaction.findUnique({
+      where: { id },
+      include: {
+        user: true,
+        category: true,
+      },
+    });
+
+    return {
+      message: 'Transação encontrada com sucesso',
+      statusCode: HttpStatus.OK,
+      data: transaction,
+    };
   }
 
-  update(id: string, updateTransactionDto: UpdateTransactionDto) {
-    return `This action updates a #${id} transaction`;
+  async update(id: string, updateTransactionDto: UpdateTransactionDto) {
+    await this.findTransactionByUserAndDateAndAmount(
+      updateTransactionDto.userId as string,
+      updateTransactionDto.date as Date,
+      updateTransactionDto.amount as number,
+    );
+    await this.findTransactionById(id);
+
+    const transaction = await this.prisma.transaction.update({
+      where: { id },
+      data: {
+        ...updateTransactionDto,
+      },
+    });
+
+    return {
+      message: 'Transação atualizada com sucesso',
+      statusCode: HttpStatus.OK,
+      data: transaction,
+    };
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} transaction`;
+  async remove(id: string) {
+    await this.findTransactionById(id);
+
+    await this.prisma.transaction.delete({
+      where: { id },
+    });
+
+    return {
+      message: 'Transação removida com sucesso',
+      statusCode: HttpStatus.OK,
+    };
   }
 
   private async findTransactionByUserAndDateAndAmount(
@@ -62,5 +117,21 @@ export class TransactionService {
     }
 
     return isExistsTransatcion;
+  }
+
+  private async findTransactionById(id: string) {
+    const transaction = await this.prisma.transaction.findUnique({
+      where: { id },
+      include: {
+        user: true,
+        category: true,
+      },
+    });
+
+    if (!transaction) {
+      throw new ConflictException('Transação não encontrada');
+    }
+
+    return transaction;
   }
 }
