@@ -109,7 +109,7 @@ export class UsersService {
     };
   }
 
-  // 🔒 método privado para verificar e-mail existente
+
   private async findByEmail(email: string): Promise<boolean> {
     const user = await this.prisma.user.findUnique({
       where: { email },
@@ -117,7 +117,7 @@ export class UsersService {
     return Boolean(user);
   }
 
-  // 🔒 método privado para buscar usuário por ID
+
   private async findById(id: string) {
     const user = await this.prisma.user.findUnique({
       where: { id },
